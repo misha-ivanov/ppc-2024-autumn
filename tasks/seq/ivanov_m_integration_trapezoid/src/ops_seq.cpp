@@ -20,18 +20,17 @@ bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::pre_processing() {
   n_ = static_cast<int>(input[2]);
   result_ = 0.0;
 
-  if(a_ > b_) std::swap(a_, b_);
+  if (a_ > b_) std::swap(a_, b_);
   return true;
 }
 
 bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::run() {
-    internal_order_test();
-    if (a_ == b_) return true;
-    double step_ = (b_ - a_)/n_;
-    for (int i = 0; i < n_; i++)
-      result_ += (f_(a_ + i * step_) + f_(a_ + (i + 1) * step_));
-    result_ = result_ / 2 * step_;
-    return true;
+  internal_order_test();
+  if (a_ == b_) return true;
+  double step_ = (b_ - a_) / n_;
+  for (int i = 0; i < n_; i++) result_ += (f_(a_ + i * step_) + f_(a_ + (i + 1) * step_));
+  result_ = result_ / 2 * step_;
+  return true;
 }
 
 bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::post_processing() {
