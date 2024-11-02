@@ -6,23 +6,22 @@
 using namespace std::chrono_literals;
 
 bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::validation() {
-   internal_order_test();
-   // Check count elements of output
-   return taskData->inputs_count[0] == 3 && taskData->outputs_count[0] == 1;
+  internal_order_test();
+  // Check count elements of output
+  return taskData->inputs_count[0] == 3 && taskData->outputs_count[0] == 1;
 }
 
 bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::pre_processing() {
-   internal_order_test();
-   // Init value for input and output
-   double* input = reinterpret_cast<double*>(taskData->inputs[0]);
-   a_ = input[0];
-   b_ = input[1];
-   n_ = static_cast<int>(input[2]);
-   result_ = 0.0;
+  internal_order_test();
+  // Init value for input and output
+  double* input = reinterpret_cast<double*>(taskData->inputs[0]);
+  a_ = input[0];
+  b_ = input[1];
+  n_ = static_cast<int>(input[2]);
+  result_ = 0.0;
 
-   if(a_ > b_)
-       std::swap(a_, b_);
-   return true;
+  if(a_ > b_) std::swap(a_, b_);
+  return true;
 }
 
 bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::run() {

@@ -1,8 +1,8 @@
 // Copyright 2024 Ivanov Mike
 #pragma once
 
-#include <vector>
 #include <functional>
+#include <vector>
 
 #include "core/task/include/task.hpp"
 
@@ -18,6 +18,7 @@ class TestTaskSequential : public ppc::core::Task {
   bool post_processing() override;
 
   void add_function(const ::std::function<double(double)>& f);
+
  private:
   double a_{}, b_{};
   int n_{};
@@ -25,4 +26,4 @@ class TestTaskSequential : public ppc::core::Task {
   std::function<double(double)> f_;
 };
 
-}
+}  // namespace ivanov_m_integration_trapezoid_seq

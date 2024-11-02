@@ -3,13 +3,11 @@
 
 #include <boost/mpi/communicator.hpp>
 #include <boost/mpi/environment.hpp>
-
-#include <vector>
 #include <cmath>
 #include <numbers>
+#include <vector>
 
 #include "mpi/ivanov_m_integration_trapezoid/include/ops_mpi.hpp"
-
 
 TEST(ivanov_m_integration_trapezoid_mpi_func_test, simple_parabola) {
   boost::mpi::communicator world;

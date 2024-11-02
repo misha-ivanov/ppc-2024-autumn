@@ -4,7 +4,6 @@
 #include <thread>
 #include <vector>
 
-
 bool ivanov_m_integration_trapezoid_mpi::TestMPITaskSequential::pre_processing() {
   internal_order_test();
   double* input = reinterpret_cast<double*>(taskData->inputs[0]);
@@ -42,7 +41,6 @@ void ivanov_m_integration_trapezoid_mpi::TestMPITaskSequential::add_function(con
   f_ = f;
 }
 
-
 bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::validation() {
   internal_order_test();
   if (world.rank() == 0) {
@@ -66,7 +64,6 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::pre_processing() {
   return true;
 }
 
-
 bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::run() {
   internal_order_test();
   int rank = world.rank();
@@ -83,12 +80,10 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::run() {
 
   if (a_ == b_) return true;
 
-  for (int i = rank; i < n_; i+=size) 
-      local_result += (f_(a_ + i * step) + f_(a_ + (i + 1) * step));
+  for (int i = rank; i < n_; i+=size) local_result += (f_(a_ + i * step) + f_(a_ + (i + 1) * step));
   reduce(world, local_result, result_, std::plus<double>(), 0);
   
-  if(rank == 0)
-      result_ = result_ / 2 * step;
+  if(rank == 0) result_ = result_ / 2 * step;
 
   return true;
 }

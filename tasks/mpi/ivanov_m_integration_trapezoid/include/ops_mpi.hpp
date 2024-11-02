@@ -3,13 +3,11 @@
 
 #include <gtest/gtest.h>
 
-//#include <boost/mpi.hpp>
 #include <boost/mpi/collectives.hpp>
 #include <boost/mpi/communicator.hpp>
-
-#include <vector>
-#include <numeric>
 #include <functional>
+#include <numeric>
+#include <vector>
 
 #include "core/task/include/task.hpp"
 

@@ -1,10 +1,10 @@
 // Copyright 2024 Ivanov Mike
 #include <gtest/gtest.h>
 
-#include <vector>
-#include <functional>
 #include <cmath>
+#include <functional>
 #include <numbers>
+#include <vector>
 
 #include "seq/ivanov_m_integration_trapezoid/include/ops_seq.hpp"
 
@@ -12,7 +12,7 @@ TEST(ivanov_m_integration_trapezoid_seq_func_test, simple_parabola) {
   const double a = 0;
   const double b = 1;
   const int n = 1000;
-  const double res = 1.0/3.0;
+  const double res = 1.0 / 3.0;
 
   // Create function y = x^2
   std::function<double(double)> _f = [](double x) { return x * x; };
@@ -204,7 +204,7 @@ TEST(ivanov_m_integration_trapezoid_seq_func_test, ln_with_sqr_border_exp) {
   const double a = 1;
   const double b = static_cast<double>(std::numbers::e * std::numbers::e);
   const int n = 1000;
-  const double res = static_cast<double> (std::numbers::e * std::numbers::e) + 1.0;
+  const double res = static_cast<double>(std::numbers::e * std::numbers::e) + 1.0;
 
   // Create function
   std::function<double(double)> _f = [](double x) { return log(x); };

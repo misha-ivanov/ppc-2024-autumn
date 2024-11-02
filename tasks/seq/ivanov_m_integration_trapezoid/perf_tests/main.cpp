@@ -1,8 +1,8 @@
 // Copyright 2024 Ivanov Mike
 #include <gtest/gtest.h>
 
-#include <vector>
 #include <functional>
+#include <vector>
 
 #include "core/perf/include/perf.hpp"
 #include "seq/ivanov_m_integration_trapezoid/include/ops_seq.hpp"

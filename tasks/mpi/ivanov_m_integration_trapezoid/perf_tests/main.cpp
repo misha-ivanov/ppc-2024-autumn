@@ -103,4 +103,3 @@ TEST(ivanov_m_integration_trapezoid_mpi_perf_test, test_task_run) {
     ASSERT_NEAR(result, global_result[0], 1e-3);
   }
 }
-
