@@ -82,7 +82,7 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::run() {
 
   for (int i = rank; i < n_; i += size) local_result += (f_(a_ + i * step) + f_(a_ + (i + 1) * step));
   reduce(world, local_result, result_, std::plus<double>(), 0);
-  
+
   if (rank == 0) result_ = result_ / 2 * step;
 
   return true;
