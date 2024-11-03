@@ -42,9 +42,8 @@ class TestMPITaskParallel : public ppc::core::Task {
   void add_function(const ::std::function<double(double)>& f);
 
  private:
-  double a_{}, b_{};
+  double a_{}, b_{}, result_{};
   int n_{};
-  double result_{};
   std::function<double(double)> f_;
   boost::mpi::communicator world;
 };
