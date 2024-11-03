@@ -14,7 +14,7 @@ bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::validation() {
 bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::pre_processing() {
   internal_order_test();
   // Init value for input and output
-  double* input = reinterpret_cast<double*>(taskData->inputs[0]);
+  auto* input = reinterpret_cast<double*>(taskData->inputs[0]);
   a_ = input[0];
   b_ = input[1];
   n_ = static_cast<int>(input[2]);

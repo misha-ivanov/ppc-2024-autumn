@@ -165,7 +165,7 @@ TEST(ivanov_m_integration_trapezoid_mpi_func_test, line_function) {
 TEST(ivanov_m_integration_trapezoid_mpi_func_test, sinus) {
   boost::mpi::communicator world;
   double a = 0;
-  double b = static_cast<double>(std::numbers::pi);
+  auto b = static_cast<double>(std::numbers::pi);
   int n = 10000;
 
   // Create function y = sin(x)
@@ -267,7 +267,7 @@ TEST(ivanov_m_integration_trapezoid_mpi_func_test, sqrt) {
 TEST(ivanov_m_integration_trapezoid_mpi_func_test, simple_ln) {
   boost::mpi::communicator world;
   double a = 1;
-  double b = static_cast<double>(std::numbers::e);
+  auto b = static_cast<double>(std::numbers::e);
   int n = 10000;
 
   // Create function y = ln(x)
@@ -318,7 +318,7 @@ TEST(ivanov_m_integration_trapezoid_mpi_func_test, simple_ln) {
 TEST(ivanov_m_integration_trapezoid_mpi_func_test, simple_ln_with_right_border_sqr_exp) {
   boost::mpi::communicator world;
   double a = 1;
-  double b = static_cast<double>(std::numbers::e * std::numbers::e);
+  auto b = static_cast<double>(std::numbers::e * std::numbers::e);
   int n = 10000;
 
   // Create function y = ln(x)

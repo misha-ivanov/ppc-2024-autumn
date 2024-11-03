@@ -106,7 +106,7 @@ TEST(ivanov_m_integration_trapezoid_seq_func_test, line_function) {
 
 TEST(ivanov_m_integration_trapezoid_seq_func_test, sinus) {
   const double a = 0;
-  const double b = static_cast<double>(std::numbers::pi);
+  const auto b = static_cast<double>(std::numbers::pi);
   const int n = 1000;
   const double res = 2.0;
 
@@ -170,7 +170,7 @@ TEST(ivanov_m_integration_trapezoid_seq_func_test, sqrt) {
 
 TEST(ivanov_m_integration_trapezoid_seq_func_test, simple_ln) {
   const double a = 1;
-  const double b = static_cast<double>(std::numbers::e);
+  const auto b = static_cast<double>(std::numbers::e);
   const int n = 1000;
   const double res = 1.0;
 
@@ -202,7 +202,7 @@ TEST(ivanov_m_integration_trapezoid_seq_func_test, simple_ln) {
 
 TEST(ivanov_m_integration_trapezoid_seq_func_test, ln_with_sqr_border_exp) {
   const double a = 1;
-  const double b = static_cast<double>(std::numbers::e * std::numbers::e);
+  const auto b = static_cast<double>(std::numbers::e * std::numbers::e);
   const int n = 1000;
   const double res = static_cast<double>(std::numbers::e * std::numbers::e) + 1.0;
 

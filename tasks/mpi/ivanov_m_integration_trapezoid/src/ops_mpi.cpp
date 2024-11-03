@@ -6,7 +6,7 @@
 
 bool ivanov_m_integration_trapezoid_mpi::TestMPITaskSequential::pre_processing() {
   internal_order_test();
-  double* input = reinterpret_cast<double*>(taskData->inputs[0]);
+  auto* input = reinterpret_cast<double*>(taskData->inputs[0]);
   a_ = input[0];
   b_ = input[1];
   n_ = static_cast<int>(input[2]);
@@ -53,7 +53,7 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::validation() {
 bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::pre_processing() {
   internal_order_test();
   if (world.rank() == 0) {
-    double* input = reinterpret_cast<double*>(taskData->inputs[0]);
+    auto* input = reinterpret_cast<double*>(taskData->inputs[0]);
     a_ = input[0];
     b_ = input[1];
     n_ = static_cast<int>(input[2]);
@@ -81,7 +81,7 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::run() {
   if (a_ == b_) return true;
 
   for (int i = rank; i < n_; i += size) local_result += (f_(a_ + i * step) + f_(a_ + (i + 1) * step));
-  reduce(world, local_result, result_, std::plus<double>(), 0);
+  reduce(world, local_result, result_, std::plus<>(), 0);
 
   if (rank == 0) result_ = result_ / 2 * step;
 
