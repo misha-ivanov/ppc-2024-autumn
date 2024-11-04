@@ -54,7 +54,6 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::pre_processing() {
     b_ = input[1];
     n_ = static_cast<int>(input[2]);
     result_ = 0.0;
-
   }
   return true;
 }
