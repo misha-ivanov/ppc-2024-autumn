@@ -1,10 +1,6 @@
 // Copyright 2024 Ivanov Mike
 #include "seq/ivanov_m_integration_trapezoid/include/ops_seq.hpp"
 
-#include <thread>
-
-using namespace std::chrono_literals;
-
 bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::validation() {
   internal_order_test();
   // Check count elements of output
@@ -20,7 +16,6 @@ bool ivanov_m_integration_trapezoid_seq::TestTaskSequential::pre_processing() {
   n_ = static_cast<int>(input[2]);
   result_ = 0.0;
 
-  if (a_ > b_) std::swap(a_, b_);
   return true;
 }
 

@@ -1,9 +1,6 @@
 // Copyright 2024 Ivanov Mike
 #include "mpi/ivanov_m_integration_trapezoid/include/ops_mpi.hpp"
 
-#include <thread>
-#include <vector>
-
 bool ivanov_m_integration_trapezoid_mpi::TestMPITaskSequential::pre_processing() {
   internal_order_test();
   auto* input = reinterpret_cast<double*>(taskData->inputs[0]);
@@ -12,7 +9,6 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskSequential::pre_processing()
   n_ = static_cast<int>(input[2]);
   result_ = 0.0;
 
-  if (a_ > b_) std::swap(a_, b_);
   return true;
 }
 
@@ -59,7 +55,6 @@ bool ivanov_m_integration_trapezoid_mpi::TestMPITaskParallel::pre_processing() {
     n_ = static_cast<int>(input[2]);
     result_ = 0.0;
 
-    if (a_ > b_) std::swap(a_, b_);
   }
   return true;
 }

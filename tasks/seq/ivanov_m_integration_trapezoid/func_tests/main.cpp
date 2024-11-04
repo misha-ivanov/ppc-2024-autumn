@@ -44,7 +44,7 @@ TEST(ivanov_m_integration_trapezoid_seq_func_test, simple_parabola_swapped_borde
   const double a = 1;
   const double b = 0;
   const int n = 1000;
-  const double res = 1.0 / 3.0;
+  const double res = -1.0 / 3.0;
 
   // Create function y = x^2
   std::function<double(double)> _f = [](double x) { return x * x; };

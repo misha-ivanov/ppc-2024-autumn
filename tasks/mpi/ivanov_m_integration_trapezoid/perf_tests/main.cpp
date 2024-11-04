@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 
 #include <boost/mpi/timer.hpp>
-#include <vector>
 
 #include "core/perf/include/perf.hpp"
 #include "mpi/ivanov_m_integration_trapezoid/include/ops_mpi.hpp"
