@@ -73,7 +73,7 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, validation_false_test_inputs) {
   boost::mpi::communicator world;
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix;
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -99,7 +99,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, validation_false_test_inputs) {
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, validation_false_test_size_of_matrix) {
   boost::mpi::communicator world;
-  size_t n = 3;
+  int n = 3;
   std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -125,7 +125,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, validation_false_test_size_of_matr
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, pre_processing_false_test_determinant_is_zero_because_rows_are_zero) {
   boost::mpi::communicator world;
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix = {0, 0, 2, 0, 1, 3};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -152,7 +152,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, pre_processing_false_test_determin
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, pre_processing_false_test_determinant_is_counted_and_equals_zero) {
   boost::mpi::communicator world;
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix = {1, 1, 1, 1, 1, 1};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -179,7 +179,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, pre_processing_false_test_determin
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, pre_processing_true_test_determinant_is_not_zero) {
   boost::mpi::communicator world;
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix = {2, 0, 1, 0, 4, 1};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -206,7 +206,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, pre_processing_true_test_determina
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_10) {
   boost::mpi::communicator world;
-  size_t n = 10;
+  int n = 10;
   std::vector<double> ans = ivanov_m_gauss_horizontal_mpi::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_mpi::GenMatrix(ans);
   std::vector<double> out_seq(n, 0);
@@ -256,7 +256,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_10) {
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_100) {
   boost::mpi::communicator world;
-  size_t n = 100;
+  int n = 100;
   std::vector<double> ans = ivanov_m_gauss_horizontal_mpi::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_mpi::GenMatrix(ans);
   std::vector<double> out_seq(n, 0);
@@ -306,7 +306,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_100) {
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_300) {
   boost::mpi::communicator world;
-  size_t n = 300;
+  int n = 300;
   std::vector<double> ans = ivanov_m_gauss_horizontal_mpi::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_mpi::GenMatrix(ans);
   std::vector<double> out_seq(n, 0);

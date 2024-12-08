@@ -26,7 +26,7 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential::validation() {
   internal_order_test();
   auto* input_matrix = reinterpret_cast<double*>(taskData->inputs[0]);
   int size_of_matrix = taskData->inputs_count[0];
-  auto input_number_of_equations = *reinterpret_cast<size_t*>(taskData->inputs[1]);
+  auto input_number_of_equations = *reinterpret_cast<int*>(taskData->inputs[1]);
 
   if (input_matrix == nullptr) return false;
 
@@ -38,10 +38,8 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential::validation() {
 bool ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential::run() {
   internal_order_test();
   int main_row;
-  double main_value;
   for (int active_row = 0; active_row < number_of_equations; active_row++) {
     main_row = find_max_row(extended_matrix, active_row, active_row, number_of_equations, number_of_equations + 1);
-    main_value = extended_matrix[get_linear_index(main_row, active_row, number_of_equations + 1)];
 
     // check when main row is an active row
     if (main_row != active_row) {

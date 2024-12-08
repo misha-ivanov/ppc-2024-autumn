@@ -5,6 +5,7 @@
 #include <boost/mpi/communicator.hpp>
 #include <boost/mpi/environment.hpp>
 #include <boost/serialization/vector.hpp>
+#include <cmath>
 #include <vector>
 
 #include "core/task/include/task.hpp"

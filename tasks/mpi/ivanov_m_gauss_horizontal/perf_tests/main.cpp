@@ -72,7 +72,7 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
 
 TEST(ivanov_m_gauss_horizontal_mpi_perf_test, test_pipeline_run) {
   boost::mpi::communicator world;
-  size_t n = 1000;
+  int n = 1000;
   std::vector<double> ans = ivanov_m_gauss_horizontal_mpi::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_mpi::GenMatrix(ans);
   std::vector<double> out_par(n, 0);
@@ -118,7 +118,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_perf_test, test_pipeline_run) {
 
 TEST(ivanov_m_gauss_horizontal_mpi_perf_test, test_task_run) {
   boost::mpi::communicator world;
-  size_t n = 1000;
+  int n = 1000;
   std::vector<double> ans = ivanov_m_gauss_horizontal_mpi::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_mpi::GenMatrix(ans);
   std::vector<double> out_par(n, 0);

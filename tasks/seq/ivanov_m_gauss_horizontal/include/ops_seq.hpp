@@ -1,6 +1,7 @@
 // Copyright 2024 Ivanov Mike
 #pragma once
 
+#include <cmath>
 #include <vector>
 
 #include "core/task/include/task.hpp"

@@ -71,7 +71,7 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
 }  // namespace ivanov_m_gauss_horizontal_seq
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs) {
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix;
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -94,7 +94,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs) {
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_size_of_matrix) {
-  size_t n = 3;
+  int n = 3;
   std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -117,7 +117,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_size_of_matr
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_determinant_is_zero_because_rows_are_zero) {
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix = {0, 0, 2, 0, 1, 3};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -142,7 +142,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_determin
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_determinant_is_counted_and_equals_zero) {
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix = {1, 1, 1, 1, 1, 1};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -167,7 +167,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_determin
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_true_test_determinant_is_not_zero) {
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix = {2, 0, 1, 0, 4, 1};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -192,7 +192,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_true_test_determina
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_matrix_size_2) {
-  size_t n = 2;
+  int n = 2;
   std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
   std::vector<double> ans = {2, 3};
   std::vector<double> out(n, 0);
@@ -222,7 +222,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_matrix_size_2) {
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_matrix_size_3_simple) {
-  size_t n = 3;
+  int n = 3;
   std::vector<double> matrix = {0, 0, 1, 3, 0, 1, 0, 2, 1, 0, 0, 4};
   std::vector<double> ans = {4, 2, 3};
   std::vector<double> out(n, 0);
@@ -252,7 +252,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_matrix_size_3_simple) {
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_random_matrix_size_5) {
-  size_t n = 5;
+  int n = 5;
   std::vector<double> ans = ivanov_m_gauss_horizontal_seq::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_seq::GenMatrix(ans);
   std::vector<double> out(n, 0);
@@ -282,7 +282,7 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_random_matrix_size_5) {
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_random_matrix_size_7) {
-  size_t n = 7;
+  int n = 7;
   std::vector<double> ans = ivanov_m_gauss_horizontal_seq::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_seq::GenMatrix(ans);
   std::vector<double> out(n, 0);
