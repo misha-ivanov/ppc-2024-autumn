@@ -7,7 +7,7 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential::pre_processing() {
   auto* input_matrix = reinterpret_cast<double*>(taskData->inputs[0]);
   int size_of_matrix = taskData->inputs_count[0];
 
-  number_of_equations = *reinterpret_cast<size_t*>(taskData->inputs[1]);
+  number_of_equations = *reinterpret_cast<int*>(taskData->inputs[1]);
   extended_matrix = std::vector<double>(size_of_matrix);
 
   for (int i = 0; i < size_of_matrix; i++) {
@@ -91,7 +91,7 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::pre_processing() {
     auto* input_matrix = reinterpret_cast<double*>(taskData->inputs[0]);
     int size_of_matrix = taskData->inputs_count[0];
 
-    number_of_equations = *reinterpret_cast<size_t*>(taskData->inputs[1]);
+    number_of_equations = *reinterpret_cast<int*>(taskData->inputs[1]);
     extended_matrix = std::vector<double>(size_of_matrix);
 
     for (int i = 0; i < size_of_matrix; i++) {

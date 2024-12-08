@@ -25,7 +25,7 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> generator(-2, 2);
   std::vector<double> extended_matrix;
-  size_t size = solution.size();
+  int size = static_cast<int>(solution.size());
 
   // generate identity matrix
   for (int row = 0; row < size; row++) {

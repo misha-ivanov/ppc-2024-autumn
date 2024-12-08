@@ -26,7 +26,7 @@ bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::validation() {
   internal_order_test();
   auto* input_matrix = reinterpret_cast<double*>(taskData->inputs[0]);
   int size_of_matrix = taskData->inputs_count[0];
-  auto input_number_of_equations = *reinterpret_cast<size_t*>(taskData->inputs[1]);
+  auto input_number_of_equations = *reinterpret_cast<int*>(taskData->inputs[1]);
 
   if (input_matrix == nullptr) return false;
 
