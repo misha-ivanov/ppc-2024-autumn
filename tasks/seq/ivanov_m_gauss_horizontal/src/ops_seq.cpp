@@ -65,7 +65,8 @@ bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::run() {
   for (int active_row = number_of_equations - 1; active_row >= 0; active_row--) {
     double tmp_res = 0;
     for (int active_column = number_of_equations - 1; active_column > active_row; active_column--) {
-      tmp_res += extended_matrix[get_linear_index(active_row, active_column, number_of_equations + 1)] * res[active_column];
+      tmp_res +=
+          extended_matrix[get_linear_index(active_row, active_column, number_of_equations + 1)] * res[active_column];
     }
     res[active_row] =
         extended_matrix[get_linear_index(active_row, number_of_equations, number_of_equations + 1)] - tmp_res;
@@ -77,7 +78,7 @@ bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::run() {
 bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::post_processing() {
   internal_order_test();
   auto* out = reinterpret_cast<double*>(taskData->outputs[0]);
-  
+
   for (int i = 0; i < number_of_equations; i++) {
     out[i] = res[i];
   }

@@ -8,7 +8,7 @@
 
 #include "mpi/ivanov_m_gauss_horizontal/include/ops_mpi.hpp"
 
-namespace ivanov_m_gauss_horizontal_mpi{
+namespace ivanov_m_gauss_horizontal_mpi {
 std::vector<double> GenSolution(int size) {
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -233,7 +233,7 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_10) {
 
   if (world.rank() == 0) {
     std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
-    
+
     taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
     taskDataSeq->inputs_count.emplace_back(matrix.size());
     taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));

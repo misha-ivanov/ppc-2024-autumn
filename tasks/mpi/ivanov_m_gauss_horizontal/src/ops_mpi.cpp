@@ -131,23 +131,22 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
 
   boost::mpi::broadcast(world, number_of_equations, 0);
 
-  std::vector<int> sizes(size, 0);  // vector which contains number of equations in each process
-  std::vector<int> displs(size, 0); // vector which specifies the displacement (relative to in_values) from which to
-                                    // take the outgoing data to process i
+  std::vector<int> sizes(size, 0);   // vector which contains number of equations in each process
+  std::vector<int> displs(size, 0);  // vector which specifies the displacement (relative to in_values) from which to
+                                     // take the outgoing data to process i
 
   int local_number_of_equations;                          // number of equations in this process
   int local_number_of_columns = number_of_equations + 1;  // number of columns in this process
-  int rest_equations; // the rest number of equations after devision (number_of_equations / size) --> used in rows 
-                      // distribution
+  int rest_equations;  // the rest number of equations after devision (number_of_equations / size) --> used in rows 
+                       // distribution
 
-  int main_row_index;                                       // index of main row (or equation)
-  std::vector<double> main_row(local_number_of_columns, 0); // main row (or equation) on this iteration
+  int main_row_index;                                        // index of main row (or equation)
+  std::vector<double> main_row(local_number_of_columns, 0);  // main row (or equation) on this iteration
 
-  std::vector<double> local_matrix; // container for "line" of each process
+  std::vector<double> local_matrix;  // container for "line" of each process
 
   for (int active_row = 0; active_row < number_of_equations; active_row++) {
     if (rank == 0) {
-
       // searching of row with max_value
       main_row_index =
           find_max_row(extended_matrix, active_row, active_row, number_of_equations, number_of_equations + 1);
@@ -171,10 +170,10 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
       // defining rows distribution by processes
       local_number_of_equations = (number_of_equations - active_row - 1) / size;
       rest_equations = (number_of_equations - active_row - 1) % size;
-      
+
       // clear outdated data of local_matrix amounts
       sizes.clear();
-      
+
       // creating a vector which contains number of equations in each process
       sizes.insert(sizes.begin(), rest_equations, (local_number_of_equations + 1) * local_number_of_columns);
       sizes.insert(sizes.begin() + rest_equations, size - rest_equations,

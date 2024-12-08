@@ -68,7 +68,7 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
 
   return extended_matrix;
 }
-} // namespace ivanov_m_gauss_horizontal_seq
+}  // namespace ivanov_m_gauss_horizontal_seq
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs) {
   size_t n = 2;
