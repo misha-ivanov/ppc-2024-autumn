@@ -45,7 +45,8 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
       extended_matrix[get_linear_index(row, column, size + 1)] +=
           extended_matrix[get_linear_index(row - 1, column, size + 1)];
     }
-    extended_matrix[get_linear_index(row, size, size + 1)];
+    extended_matrix[get_linear_index(row, size, size + 1)] +=
+        extended_matrix[get_linear_index(row - 1, size, size + 1)];
   }
 
   // saturation of matrix by random numbers
