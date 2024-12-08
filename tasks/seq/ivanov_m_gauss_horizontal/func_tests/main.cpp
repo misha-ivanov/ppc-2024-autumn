@@ -7,67 +7,67 @@
 #include "seq/ivanov_m_gauss_horizontal/include/ops_seq.hpp"
 
 namespace ivanov_m_gauss_horizontal_seq {
-  std::vector<double> GenSolution(int size) { 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> generator(-5, 5);
+std::vector<double> GenSolution(int size) { 
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> generator(-5, 5);
 
-    std::vector<double> solution;
-    for (int i = 0; i < size; i++) {
-      solution.push_back(generator(gen));  // generating random coefficient in range [-10, 10]
-    }
-    return solution;
+  std::vector<double> solution;
+  for (int i = 0; i < size; i++) {
+    solution.push_back(generator(gen));  // generating random coefficient in range [-10, 10]
   }
+  return solution;
+}
 
-  std::vector<double> GenMatrix(const std::vector<double> &solution) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> generator(-5, 5);
+std::vector<double> GenMatrix(const std::vector<double> &solution) {
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> generator(-5, 5);
 
-    std::vector<double> extended_matrix;
-    size_t size = solution.size();
+  std::vector<double> extended_matrix;
+  size_t size = solution.size();
 
-    // generate identity matrix
-    for (int row = 0; row < size; row++) {
-      for (int column = 0; column < size; column++) {
-        if (row == column) {
-          extended_matrix.push_back(1);
-        } else {
-          extended_matrix.push_back(0);
-        }
+  // generate identity matrix
+  for (int row = 0; row < size; row++) {
+    for (int column = 0; column < size; column++) {
+      if (row == column) {
+        extended_matrix.push_back(1);
+      } else {
+        extended_matrix.push_back(0);
       }
-      extended_matrix.push_back(solution[row]);
     }
+    extended_matrix.push_back(solution[row]);
+  }
 
   // saturation left triangle
-    for (int row = 1; row < size; row++) {
-      for (int column = 0; column < row; column++) {
-        extended_matrix[get_linear_index(row, column, size + 1)] +=
-            extended_matrix[get_linear_index(row - 1, column, size + 1)];
-      }
-      extended_matrix[get_linear_index(row, size, size + 1)];
+  for (int row = 1; row < size; row++) {
+    for (int column = 0; column < row; column++) {
+      extended_matrix[get_linear_index(row, column, size + 1)] +=
+          extended_matrix[get_linear_index(row - 1, column, size + 1)];
     }
-
-    // saturation of matrix by random numbers
-    for (int row = size - 1; row > 0; row--) {
-      int coef = generator(gen);
-      for (int column = 0; column < size + 1; column++) {
-        extended_matrix[get_linear_index(row - 1, column, size + 1)] +=
-            coef * extended_matrix[get_linear_index(row, column, size + 1)];
-      }
-    }
-
-    // saturation of matrix by random numbers
-    for (int row = 0; row < size - 1; row++) {
-      int coef = generator(gen);
-      for (int column = 0; column < size + 1; column++) {
-        extended_matrix[get_linear_index(row + 1, column, size + 1)] +=
-            coef * extended_matrix[get_linear_index(row, column, size + 1)];
-      }
-    }
-
-    return extended_matrix;
+    extended_matrix[get_linear_index(row, size, size + 1)];
   }
+
+  // saturation of matrix by random numbers
+  for (int row = size - 1; row > 0; row--) {
+    int coef = generator(gen);
+    for (int column = 0; column < size + 1; column++) {
+      extended_matrix[get_linear_index(row - 1, column, size + 1)] +=
+          coef * extended_matrix[get_linear_index(row, column, size + 1)];
+    }
+  }
+
+  // saturation of matrix by random numbers
+  for (int row = 0; row < size - 1; row++) {
+    int coef = generator(gen);
+    for (int column = 0; column < size + 1; column++) {
+      extended_matrix[get_linear_index(row + 1, column, size + 1)] +=
+          coef * extended_matrix[get_linear_index(row, column, size + 1)];
+    }
+  }
+
+  return extended_matrix;
+}
 } // namespace ivanov_m_gauss_horizontal_seq
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs) {

@@ -126,19 +126,21 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::validation() {
 
 bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
   internal_order_test();
-  int rank = world.rank(); // rank of this process
-  int size = world.size(); // number of processes in this communicator
+  int rank = world.rank();  // rank of this process
+  int size = world.size();  // number of processes in this communicator
 
   boost::mpi::broadcast(world, number_of_equations, 0);
 
   std::vector<int> sizes(size, 0);  // vector which contains number of equations in each process
-  std::vector<int> displs(size, 0); // vector which specifies the displacement (relative to in_values) from which to take the outgoing data to process i
+  std::vector<int> displs(size, 0); // vector which specifies the displacement (relative to in_values) from which to
+                                    // take the outgoing data to process i
 
-  int local_number_of_equations; // number of equations in this process
+  int local_number_of_equations;                          // number of equations in this process
   int local_number_of_columns = number_of_equations + 1;  // number of columns in this process
-  int rest_equations; // the rest number of equations after devision (number_of_equations / size) --> used in rows distribution
+  int rest_equations; // the rest number of equations after devision (number_of_equations / size) --> used in rows 
+                      // distribution
 
-  int main_row_index; // index of main row (or equation)
+  int main_row_index;                                       // index of main row (or equation)
   std::vector<double> main_row(local_number_of_columns, 0); // main row (or equation) on this iteration
 
   std::vector<double> local_matrix; // container for "line" of each process
@@ -147,14 +149,15 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
     if (rank == 0) {
 
       // searching of row with max_value
-      main_row_index = find_max_row(extended_matrix, active_row, active_row, number_of_equations, number_of_equations + 1);
+      main_row_index =
+          find_max_row(extended_matrix, active_row, active_row, number_of_equations, number_of_equations + 1);
 
       // check when main row is an active row
       if (main_row_index != active_row) {
         swap_rows(extended_matrix, active_row, main_row_index, local_number_of_columns);
       }
 
-     // used to make main element = 1
+      // used to make main element = 1
       for (int i = number_of_equations; i >= active_row; i--) {
         extended_matrix[get_linear_index(active_row, i, local_number_of_columns)] /=
             extended_matrix[get_linear_index(active_row, active_row, local_number_of_columns)];
@@ -165,14 +168,6 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
         main_row[i] = extended_matrix[get_linear_index(active_row, i, local_number_of_columns)];
       }
 
-      //std::cout << "Extended Matrix after row " << active_row << ":\n";
-      //for (int i = 0; i < number_of_equations; ++i) {
-      //  for (int j = 0; j < local_number_of_columns; ++j) {
-      //    std::cout << extended_matrix[get_linear_index(i, j, local_number_of_columns)] << " ";
-      //  }
-      //  std::cout << "\n";
-      //}
-
       // defining rows distribution by processes
       local_number_of_equations = (number_of_equations - active_row - 1) / size;
       rest_equations = (number_of_equations - active_row - 1) % size;
@@ -182,10 +177,11 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
       
       // creating a vector which contains number of equations in each process
       sizes.insert(sizes.begin(), rest_equations, (local_number_of_equations + 1) * local_number_of_columns);
-      sizes.insert(sizes.begin() + rest_equations, size - rest_equations, local_number_of_equations * local_number_of_columns);
+      sizes.insert(sizes.begin() + rest_equations, size - rest_equations,
+                   local_number_of_equations * local_number_of_columns);
 
       // creating a vector which contains start index of each process
-      displs[0] = (active_row + 1) * (number_of_equations + 1); 
+      displs[0] = (active_row + 1) * (number_of_equations + 1);
       for (int i = 1; i < size; i++) {
         displs[i] = displs[i - 1] + sizes[i - 1]; 
       }
@@ -214,7 +210,8 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
     for (int active_row_calc = 0; active_row_calc < local_number_of_equations; active_row_calc++) {
       for (int active_column_calc = number_of_equations; active_column_calc >= active_row; active_column_calc--) {
         local_matrix[get_linear_index(active_row_calc, active_column_calc, local_number_of_columns)] -=
-            local_matrix[get_linear_index(active_row_calc, active_row, local_number_of_columns)] * main_row[active_column_calc];
+            local_matrix[get_linear_index(active_row_calc, active_row, local_number_of_columns)] *
+            main_row[active_column_calc];
       }
     }
 
@@ -250,21 +247,22 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::post_processing() {
   return true;
 }
 
-
 // functions
 
 int ivanov_m_gauss_horizontal_mpi::get_linear_index(int row, int col, int number_of_columns) {
   return row * number_of_columns + col;
 }
 
-void ivanov_m_gauss_horizontal_mpi::swap_rows(std::vector<double>& matrix, int first_row, int second_row, int number_of_columns) {
+void ivanov_m_gauss_horizontal_mpi::swap_rows(std::vector<double>& matrix, int first_row, int second_row,
+                                              int number_of_columns) {
   for (int column = 0; column < number_of_columns; column++) {
     std::swap(matrix[get_linear_index(first_row, column, number_of_columns)],
               matrix[get_linear_index(second_row, column, number_of_columns)]);
   }
 }
 
-int ivanov_m_gauss_horizontal_mpi::find_max_row(const std::vector<double>& matrix, int source_row, int source_column, int number_of_rows, int number_of_columns) {
+int ivanov_m_gauss_horizontal_mpi::find_max_row(const std::vector<double>& matrix, int source_row, int source_column,
+                                                int number_of_rows, int number_of_columns) {
   int max_row = source_row;
   double max_value = matrix[get_linear_index(source_row, source_column, number_of_rows)];
   for (int active_row = source_row; active_row < number_of_rows; active_row++) {

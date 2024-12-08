@@ -39,7 +39,7 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
     extended_matrix.push_back(solution[row]);
   }
 
-   // saturation left triangle
+  // saturation left triangle
   for (int row = 1; row < size; row++) {
     for (int column = 0; column < row; column++) {
       extended_matrix[get_linear_index(row, column, size + 1)] +=

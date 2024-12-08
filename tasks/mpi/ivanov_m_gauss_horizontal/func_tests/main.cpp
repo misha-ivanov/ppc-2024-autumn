@@ -9,66 +9,66 @@
 #include "mpi/ivanov_m_gauss_horizontal/include/ops_mpi.hpp"
 
 namespace ivanov_m_gauss_horizontal_mpi{
-  std::vector<double> GenSolution(int size) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> generator(-2, 2);
-    std::vector<double> solution;
-    for (int i = 0; i < size; i++) {
-      solution.push_back(generator(gen));  // generating random coefficient in range [-10, 10]
-    }
-    return solution;
+std::vector<double> GenSolution(int size) {
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> generator(-2, 2);
+  std::vector<double> solution;
+  for (int i = 0; i < size; i++) {
+    solution.push_back(generator(gen));  // generating random coefficient in range [-10, 10]
   }
+  return solution;
+}
 
-  std::vector<double> GenMatrix(const std::vector<double> &solution) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> generator(-2, 2);
-    std::vector<double> extended_matrix;
-    size_t size = solution.size();
+std::vector<double> GenMatrix(const std::vector<double> &solution) {
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> generator(-2, 2);
+  std::vector<double> extended_matrix;
+  size_t size = solution.size();
 
-    // generate identity matrix
-    for (int row = 0; row < size; row++) {
-      for (int column = 0; column < size; column++) {
-        if (row == column) {
-          extended_matrix.push_back(1);
-        } else {
-          extended_matrix.push_back(0);
-        }
+  // generate identity matrix
+  for (int row = 0; row < size; row++) {
+    for (int column = 0; column < size; column++) {
+      if (row == column) {
+        extended_matrix.push_back(1);
+      } else {
+        extended_matrix.push_back(0);
       }
-      extended_matrix.push_back(solution[row]);
     }
+    extended_matrix.push_back(solution[row]);
+  }
 
   // saturation left triangle
-    for (int row = 1; row < size; row++) {
-      for (int column = 0; column < row; column++) {
-        extended_matrix[get_linear_index(row, column, size + 1)] +=
-            extended_matrix[get_linear_index(row - 1, column, size + 1)];
-      }
-      extended_matrix[get_linear_index(row, size, size + 1)] +=
-          extended_matrix[get_linear_index(row - 1, size, size + 1)];
+  for (int row = 1; row < size; row++) {
+    for (int column = 0; column < row; column++) {
+      extended_matrix[get_linear_index(row, column, size + 1)] +=
+          extended_matrix[get_linear_index(row - 1, column, size + 1)];
     }
-
-    // saturation of matrix by random numbers
-    for (int row = size - 1; row > 0; row--) {
-      int coef = generator(gen);
-      for (int column = 0; column < size + 1; column++) {
-        extended_matrix[get_linear_index(row - 1, column, size + 1)] +=
-            coef * extended_matrix[get_linear_index(row, column, size + 1)];
-      }
-    }
-
-    // saturation of matrix by random numbers
-    for (int row = 0; row < size - 1; row++) {
-      int coef = generator(gen);
-      for (int column = 0; column < size + 1; column++) {
-        extended_matrix[get_linear_index(row + 1, column, size + 1)] +=
-            coef * extended_matrix[get_linear_index(row, column, size + 1)];
-      }
-    }
-
-    return extended_matrix;
+    extended_matrix[get_linear_index(row, size, size + 1)] +=
+        extended_matrix[get_linear_index(row - 1, size, size + 1)];
   }
+
+  // saturation of matrix by random numbers
+  for (int row = size - 1; row > 0; row--) {
+    int coef = generator(gen);
+    for (int column = 0; column < size + 1; column++) {
+      extended_matrix[get_linear_index(row - 1, column, size + 1)] +=
+          coef * extended_matrix[get_linear_index(row, column, size + 1)];
+    }
+  }
+
+  // saturation of matrix by random numbers
+  for (int row = 0; row < size - 1; row++) {
+    int coef = generator(gen);
+    for (int column = 0; column < size + 1; column++) {
+      extended_matrix[get_linear_index(row + 1, column, size + 1)] +=
+          coef * extended_matrix[get_linear_index(row, column, size + 1)];
+    }
+  }
+
+  return extended_matrix;
+}
 }  // namespace ivanov_m_gauss_horizontal_mpi
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, validation_false_test_inputs) {
@@ -224,34 +224,34 @@ TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_10) {
     taskDataPar->outputs_count.emplace_back(out_par.size());
   }
 
-    ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar);
+  ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar);
 
-    ASSERT_EQ(testMpiTaskParallel.validation(), true);
-    testMpiTaskParallel.pre_processing();
-    testMpiTaskParallel.run();
-    testMpiTaskParallel.post_processing();
+  ASSERT_EQ(testMpiTaskParallel.validation(), true);
+  testMpiTaskParallel.pre_processing();
+  testMpiTaskParallel.run();
+  testMpiTaskParallel.post_processing();
 
-    if (world.rank() == 0) {
-      std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
-      
-      taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
-      taskDataSeq->inputs_count.emplace_back(matrix.size());
-      taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));
-      taskDataSeq->inputs_count.emplace_back(1);
-      taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out_seq.data()));
-      taskDataSeq->outputs_count.emplace_back(out_seq.size());
+  if (world.rank() == 0) {
+    std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+    
+    taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
+    taskDataSeq->inputs_count.emplace_back(matrix.size());
+    taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));
+    taskDataSeq->inputs_count.emplace_back(1);
+    taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out_seq.data()));
+    taskDataSeq->outputs_count.emplace_back(out_seq.size());
 
-      ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential testMpiTaskSequential(taskDataSeq);
+    ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential testMpiTaskSequential(taskDataSeq);
 
-      ASSERT_EQ(testMpiTaskSequential.validation(), true);
-      testMpiTaskSequential.pre_processing();
-      testMpiTaskSequential.run();
-      testMpiTaskSequential.post_processing();
-    }
+    ASSERT_EQ(testMpiTaskSequential.validation(), true);
+    testMpiTaskSequential.pre_processing();
+    testMpiTaskSequential.run();
+    testMpiTaskSequential.post_processing();
+  }
 
-    for (int i = 0; i < n; i++) {
-      EXPECT_NEAR(out_seq[i], out_par[i], 1e-3);
-    }
+  for (int i = 0; i < n; i++) {
+    EXPECT_NEAR(out_seq[i], out_par[i], 1e-3);
+  }
 }
 
 TEST(ivanov_m_gauss_horizontal_mpi_func_test, run_random_matrix_size_100) {

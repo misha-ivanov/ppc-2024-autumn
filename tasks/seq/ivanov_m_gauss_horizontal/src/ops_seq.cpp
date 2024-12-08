@@ -48,12 +48,15 @@ bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::run() {
 
     // forward gauss method
     for (int active_column = number_of_equations; active_column >= active_row; active_column--) {
-      extended_matrix[get_linear_index(active_row, active_column, number_of_equations + 1)] /= extended_matrix[get_linear_index(active_row, active_row, number_of_equations + 1)];
+      extended_matrix[get_linear_index(active_row, active_column, number_of_equations + 1)] /=
+          extended_matrix[get_linear_index(active_row, active_row, number_of_equations + 1)];
     }
 
     for (int active_row_calc = active_row + 1; active_row_calc < number_of_equations; active_row_calc++) {
       for (int active_column_calc = number_of_equations; active_column_calc >= active_row; active_column_calc--) {
-        extended_matrix[get_linear_index(active_row_calc, active_column_calc, number_of_equations + 1)] -= extended_matrix[get_linear_index(active_row, active_column_calc, number_of_equations + 1)] * extended_matrix[get_linear_index(active_row_calc, active_row, number_of_equations + 1)];
+        extended_matrix[get_linear_index(active_row_calc, active_column_calc, number_of_equations + 1)] -=
+            extended_matrix[get_linear_index(active_row, active_column_calc, number_of_equations + 1)] *
+            extended_matrix[get_linear_index(active_row_calc, active_row, number_of_equations + 1)];
       }
     }
   }
@@ -64,7 +67,8 @@ bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::run() {
     for (int active_column = number_of_equations - 1; active_column > active_row; active_column--) {
       tmp_res += extended_matrix[get_linear_index(active_row, active_column, number_of_equations + 1)] * res[active_column];
     }
-    res[active_row] = extended_matrix[get_linear_index(active_row, number_of_equations, number_of_equations + 1)] - tmp_res;
+    res[active_row] =
+        extended_matrix[get_linear_index(active_row, number_of_equations, number_of_equations + 1)] - tmp_res;
   }
 
   return true;
@@ -86,14 +90,16 @@ int ivanov_m_gauss_horizontal_seq::get_linear_index(int row, int col, int number
   return row * number_of_columns + col;
 }
 
-void ivanov_m_gauss_horizontal_seq::swap_rows(std::vector<double>& matrix, int first_row, int second_row, int number_of_columns) {
+void ivanov_m_gauss_horizontal_seq::swap_rows(std::vector<double>& matrix, int first_row, int second_row,
+                                              int number_of_columns) {
   for (int column = 0; column < number_of_columns; column++) {
     std::swap(matrix[get_linear_index(first_row, column, number_of_columns)],
               matrix[get_linear_index(second_row, column, number_of_columns)]);
   }
 }
 
-int ivanov_m_gauss_horizontal_seq::find_max_row(const std::vector<double>& matrix, int source_row, int source_column, int number_of_rows, int number_of_columns) {
+int ivanov_m_gauss_horizontal_seq::find_max_row(const std::vector<double>& matrix, int source_row, int source_column,
+                                                int number_of_rows, int number_of_columns) {
   int max_row = source_row;
   double max_value = matrix[get_linear_index(source_row, source_column, number_of_rows)];
   for (int active_row = source_row; active_row < number_of_rows; active_row++) {
