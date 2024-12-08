@@ -8,6 +8,8 @@ bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::pre_processing() {
   int size_of_matrix = taskData->inputs_count[0];
 
   number_of_equations = *reinterpret_cast<int*>(taskData->inputs[1]);
+  if (number_of_equations < 1 || size_of_matrix != (number_of_equations * (number_of_equations + 1))) return false;
+  
   extended_matrix = std::vector<double>(size_of_matrix);
 
   for (int i = 0; i < size_of_matrix; i++) {
@@ -20,15 +22,9 @@ bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::pre_processing() {
 
 bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::validation() {
   internal_order_test();
-  auto* input_matrix = reinterpret_cast<double*>(taskData->inputs[0]);
-  int size_of_matrix = taskData->inputs_count[0];
-  auto input_number_of_equations = *reinterpret_cast<int*>(taskData->inputs[1]);
-
-  if (input_matrix == nullptr) return false;
-
-  if (size_of_matrix != (input_number_of_equations * (input_number_of_equations + 1))) return false;
-
-  return true;
+  return (static_cast<int>(taskData->inputs.size()) == 2 && static_cast<int>(taskData->inputs_count.size()) == 2 &&
+          static_cast<int>(taskData->outputs.size()) == 1 && static_cast<int>(taskData->outputs_count.size()) == 1 &&
+          taskData->inputs[0] != nullptr);
 }
 
 bool ivanov_m_gauss_horizontal_seq::TestTaskSequential::run() {

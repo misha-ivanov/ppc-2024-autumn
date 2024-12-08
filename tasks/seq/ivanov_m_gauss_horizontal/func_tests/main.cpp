@@ -71,7 +71,96 @@ std::vector<double> GenMatrix(const std::vector<double> &solution) {
 }
 }  // namespace ivanov_m_gauss_horizontal_seq
 
-TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs) {
+TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs_size) {
+  int n = 2;
+  std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
+  std::vector<double> ans = {2, 3};
+  std::vector<double> out(n, 0);
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
+  taskDataSeq->inputs_count.emplace_back(matrix.size());
+  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  taskDataSeq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+
+  ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
+
+  EXPECT_EQ(testTaskSequential.validation(), false);
+}
+
+TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs_counts_size) {
+  int n = 2;
+  std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
+  std::vector<double> ans = {2, 3};
+  std::vector<double> out(n, 0);
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
+  taskDataSeq->inputs_count.emplace_back(matrix.size());
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));
+  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  taskDataSeq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+
+  ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
+
+  EXPECT_EQ(testTaskSequential.validation(), false);
+}
+
+TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_outputs_size) {
+  int n = 2;
+  std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
+  std::vector<double> ans = {2, 3};
+  std::vector<double> out(n, 0);
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
+  taskDataSeq->inputs_count.emplace_back(matrix.size());
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));
+  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  taskDataSeq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+
+  ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
+
+  EXPECT_EQ(testTaskSequential.validation(), false);
+}
+
+TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_outputs_count_size) {
+  int n = 2;
+  std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
+  std::vector<double> ans = {2, 3};
+  std::vector<double> out(n, 0);
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
+  taskDataSeq->inputs_count.emplace_back(matrix.size());
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));
+  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  taskDataSeq->outputs_count.emplace_back(out.size());
+  taskDataSeq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+
+  ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
+
+  EXPECT_EQ(testTaskSequential.validation(), false);
+}
+
+TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs_nullptr) {
   int n = 2;
   std::vector<double> matrix;
   std::vector<double> ans = {2, 3};
@@ -94,7 +183,31 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_inputs) {
   EXPECT_EQ(testTaskSequential.validation(), false);
 }
 
-TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_size_of_matrix) {
+TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_size_of_matrix_0) {
+  int n = 0;
+  std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
+  std::vector<double> ans = {2, 3};
+  std::vector<double> out(2, 0);
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
+  taskDataSeq->inputs_count.emplace_back(matrix.size());
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));
+  taskDataSeq->inputs_count.emplace_back(1);
+  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  taskDataSeq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+
+  ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
+
+  ASSERT_EQ(testTaskSequential.validation(), true);
+  EXPECT_EQ(testTaskSequential.pre_processing(), false);
+}
+
+TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_size_of_matrix_more) {
   int n = 3;
   std::vector<double> matrix = {1, 0, 2, 0, 1, 3};
   std::vector<double> ans = {2, 3};
@@ -114,7 +227,8 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, validation_false_test_size_of_matr
 
   ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
 
-  EXPECT_EQ(testTaskSequential.validation(), false);
+  ASSERT_EQ(testTaskSequential.validation(), true);
+  EXPECT_EQ(testTaskSequential.pre_processing(), false);
 }
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_determinant_is_zero_because_rows_are_zero) {
@@ -138,7 +252,6 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_false_test_determin
   ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
 
   ASSERT_EQ(testTaskSequential.validation(), true);
-
   EXPECT_EQ(testTaskSequential.pre_processing(), false);
 }
 
@@ -188,7 +301,6 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, pre_processing_true_test_determina
   ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
 
   ASSERT_EQ(testTaskSequential.validation(), true);
-
   EXPECT_EQ(testTaskSequential.pre_processing(), true);
 }
 
@@ -284,6 +396,36 @@ TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_random_matrix_size_5) {
 
 TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_random_matrix_size_7) {
   int n = 7;
+  std::vector<double> ans = ivanov_m_gauss_horizontal_seq::GenSolution(n);
+  std::vector<double> matrix = ivanov_m_gauss_horizontal_seq::GenMatrix(ans);
+  std::vector<double> out(n, 0);
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
+  taskDataSeq->inputs_count.emplace_back(matrix.size());
+  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&n));
+  taskDataSeq->inputs_count.emplace_back(1);
+  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  taskDataSeq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+
+  ivanov_m_gauss_horizontal_seq::TestTaskSequential testTaskSequential(taskDataSeq);
+
+  ASSERT_EQ(testTaskSequential.validation(), true);
+  testTaskSequential.pre_processing();
+  testTaskSequential.run();
+  testTaskSequential.post_processing();
+
+  for (int i = 0; i < n; i++) {
+    EXPECT_NEAR(out[i], ans[i], 1e-3);
+  }
+}
+
+TEST(ivanov_m_gauss_horizontal_seq_func_test, run_true_random_matrix_size_1) {
+  int n = 1;
   std::vector<double> ans = ivanov_m_gauss_horizontal_seq::GenSolution(n);
   std::vector<double> matrix = ivanov_m_gauss_horizontal_seq::GenMatrix(ans);
   std::vector<double> out(n, 0);
