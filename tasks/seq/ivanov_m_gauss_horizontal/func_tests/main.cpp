@@ -7,7 +7,7 @@
 #include "seq/ivanov_m_gauss_horizontal/include/ops_seq.hpp"
 
 namespace ivanov_m_gauss_horizontal_seq {
-std::vector<double> GenSolution(int size) { 
+std::vector<double> GenSolution(int size) {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> generator(-5, 5);

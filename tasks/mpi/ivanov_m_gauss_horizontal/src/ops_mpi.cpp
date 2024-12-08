@@ -137,7 +137,7 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
 
   int local_number_of_equations;                          // number of equations in this process
   int local_number_of_columns = number_of_equations + 1;  // number of columns in this process
-  int rest_equations;  // the rest number of equations after devision (number_of_equations / size) --> used in rows 
+  int rest_equations;  // the rest number of equations after devision (number_of_equations / size) --> used in rows
                        // distribution
 
   int main_row_index;                                        // index of main row (or equation)
@@ -182,7 +182,7 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::run() {
       // creating a vector which contains start index of each process
       displs[0] = (active_row + 1) * (number_of_equations + 1);
       for (int i = 1; i < size; i++) {
-        displs[i] = displs[i - 1] + sizes[i - 1]; 
+        displs[i] = displs[i - 1] + sizes[i - 1];
       }
 
       // counting the number of columns and rows (or equations) in this process

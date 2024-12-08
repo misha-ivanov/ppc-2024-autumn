@@ -107,7 +107,7 @@ int ivanov_m_gauss_horizontal_seq::find_max_row(const std::vector<double>& matri
     if (fabs(matrix[get_linear_index(active_row, source_column, number_of_columns)]) > max_value) {
       max_value = fabs(matrix[get_linear_index(active_row, source_column, number_of_columns)]);
       max_row = active_row;
-    } 
+    }
   }
   return max_row;
 }
