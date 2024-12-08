@@ -18,7 +18,7 @@ int get_linear_index(int row, int col, int number_of_columns);
 void swap_rows(std::vector<double>& matrix, int first_row, int second_row, int number_of_columns);
 int find_max_row(const std::vector<double>& matrix, int source_row, int source_column, int number_of_rows,
                  int number_of_columns);
-int determinant(const std::vector<double>& matrix, int number_of_rows);
+int determinant(const std::vector<double>& matrix, int size);
 
 class TestMPITaskSequential : public ppc::core::Task {
  public:

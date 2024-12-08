@@ -15,11 +15,7 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential::pre_processing() {
   }
 
   res = std::vector<double>(number_of_equations);
-  if (determinant(extended_matrix, number_of_equations) >= DELTA) {
-    return true;
-  } else {
-    return false;
-  }
+  return determinant(extended_matrix, number_of_equations) >= DELTA;
 }
 
 bool ivanov_m_gauss_horizontal_mpi::TestMPITaskSequential::validation() {
@@ -99,11 +95,7 @@ bool ivanov_m_gauss_horizontal_mpi::TestMPITaskParallel::pre_processing() {
     }
 
     res = std::vector<double>(number_of_equations);
-    if (determinant(extended_matrix, number_of_equations) >= DELTA) {
-      return true;
-    } else {
-      return false;
-    }
+    return determinant(extended_matrix, number_of_equations) >= DELTA;
   }
   return true;
 }
@@ -271,7 +263,7 @@ int ivanov_m_gauss_horizontal_mpi::find_max_row(const std::vector<double>& matri
   return max_row;
 }
 
-int ivanov_m_gauss_horizontal_mpi::determinant(const std::vector<double>& extended_matrix_, int size) {
+int ivanov_m_gauss_horizontal_mpi::determinant(const std::vector<double>& matrix, int size) {
   std::vector<double> coef_matrix(size * size);
   int size_of_extended_matrix = size * (size + 1);
   double det = 1;  // determinant
@@ -280,7 +272,7 @@ int ivanov_m_gauss_horizontal_mpi::determinant(const std::vector<double>& extend
   int j = 0;
   for (int i = 0; i < size_of_extended_matrix; i++) {
     if ((i + 1) % (size + 1) != 0) {
-      coef_matrix[j] = extended_matrix_[i];
+      coef_matrix[j] = matrix[i];
       j++;
     }
   }
