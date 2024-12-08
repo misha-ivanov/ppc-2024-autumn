@@ -11,10 +11,10 @@ std::vector<double> GenSolution(int size) {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> generator(-2, 2);
-  std::vector<double> solution(size);
+  std::vector<double> solution(size, 0);
 
   for (int i = 0; i < size; i++) {
-    solution.push_back(generator(gen));  // generating random coefficient in range [-10, 10]
+    solution[i] = static_cast<double>(generator(gen));  // generating random coefficient in range [-2, 2]
   }
   return solution;
 }
