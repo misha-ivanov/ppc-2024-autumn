@@ -11,12 +11,12 @@ bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::pre_proce
   approximation = reinterpret_cast<double*>(taskData->inputs[0])[4];
 
   // Init value for ouput
-  res = *reinterpret_cast<double*> (taskData->outputs[0]);
+  res = *reinterpret_cast<double*>(taskData->outputs[0]);
 
   return (size > 1 && step > 0.0 && approximation > 0.0);
 }
 
-bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::validation() { 
+bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::validation() {
   internal_order_test();
 
   return (static_cast<int>(taskData->inputs.size()) == 1 && static_cast<int>(taskData->inputs_count.size()) == 1 &&
@@ -27,13 +27,13 @@ bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::validatio
 bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::run() {
   internal_order_test();
 
-  // during algorithm we will move from left to right and from up to down  
+  // during algorithm we will move from left to right and from up to down
   double minX = centerX - step * (static_cast<double>(size - 1) / 2);  // minimal X of area
   double maxY = centerY + step * (static_cast<double>(size - 1) / 2);  // maximal Y of area
 
   double localX;  // coordinate X of local point
   double localY;  // coordinate X of local point
-  
+
   double local_res = res - 2 * approximation;  // local res on current step
   double resX = centerX;                       // coordinate Y of local res
   double resY = centerY;                       // coordinate Y of local res
@@ -80,6 +80,6 @@ bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::run() {
 
 bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::post_processing() {
   internal_order_test();
-  *reinterpret_cast<double*>(taskData->outputs[0]) = res;
+  reinterpret_cast<double*>(taskData->outputs[0])[0] = res;
   return true;
 }

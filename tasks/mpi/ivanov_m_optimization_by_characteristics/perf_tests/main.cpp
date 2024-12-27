@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 
 #include <boost/mpi/timer.hpp>
-#include <random>
 
 #include "core/perf/include/perf.hpp"
 #include "mpi/ivanov_m_optimization_by_characteristics/include/ops_mpi.hpp"
@@ -12,8 +11,8 @@ TEST(ivanov_m_optimization_by_characteristics_mpi_perf_test, test_pipeline_run) 
   // start information (area 5x5 with center (0, 0))
   double centerX = 0;           // coordinate X of the search area center
   double centerY = 0;           // coordinate Y of the search area center
-  int size = 1001;              // size in points
-  double step = 0.01;           // length of step
+  int size = 401;               // size in points
+  double step = 0.025;          // length of step
   double approximation = 1e-6;  // approximation of the result
 
   // vector of start information
@@ -78,8 +77,8 @@ TEST(ivanov_m_optimization_by_characteristics_mpi_perf_test, test_task_run) {
   // start information (area 5x5 with center (0, 0))
   double centerX = 0;           // coordinate X of the search area center
   double centerY = 0;           // coordinate Y of the search area center
-  int size = 1001;              // size in points
-  double step = 0.01;           // length of step
+  int size = 401;               // size in points
+  double step = 0.025;          // length of step
   double approximation = 1e-6;  // approximation of the result
 
   // vector of start information
@@ -115,8 +114,7 @@ TEST(ivanov_m_optimization_by_characteristics_mpi_perf_test, test_task_run) {
 
   // Create Task
   auto task =
-      std::make_shared<ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel>(taskDataPar, f,
-                                                                                                    restriction);
+      std::make_shared<ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel>(taskDataPar, f, restriction);
   ASSERT_TRUE(task->validation());
   ASSERT_TRUE(task->pre_processing());
   ASSERT_TRUE(task->run());

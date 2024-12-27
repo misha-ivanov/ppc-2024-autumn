@@ -1,13 +1,14 @@
 // Copyright 2024 Ivanov Mike
 #pragma once
 
+#include <math.h>
+
 #include <algorithm>
 #include <boost/mpi/collectives.hpp>
 #include <boost/mpi/communicator.hpp>
 #include <boost/mpi/environment.hpp>
 #include <boost/serialization/vector.hpp>
 #include <functional>
-#include <math.h>
 #include <numbers>
 #include <vector>
 
@@ -17,8 +18,9 @@ namespace ivanov_m_optimization_by_characteristics_mpi {
 
 class TestMPITaskSequential : public ppc::core::Task {
  public:
-  explicit TestMPITaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_, std::function<double(double, double)> f_,
-                              std::vector<std::function<bool(double, double)>> restriction_)
+  explicit TestMPITaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_,
+                                 std::function<double(double, double)> f_,
+                                 std::vector<std::function<bool(double, double)>> restriction_)
       : Task(std::move(taskData_)), f(std::move(f_)), restriction(std::move(restriction_)) {}
   bool pre_processing() override;
   bool validation() override;
@@ -37,9 +39,8 @@ class TestMPITaskSequential : public ppc::core::Task {
 
 class TestMPITaskParallel : public ppc::core::Task {
  public:
-  explicit TestMPITaskParallel(std::shared_ptr<ppc::core::TaskData> taskData_,
-                                 std::function<double(double, double)> f_,
-                                 std::vector<std::function<bool(double, double)>> restriction_)
+  explicit TestMPITaskParallel(std::shared_ptr<ppc::core::TaskData> taskData_, std::function<double(double, double)> f_,
+                               std::vector<std::function<bool(double, double)>> restriction_)
       : Task(std::move(taskData_)), f(std::move(f_)), restriction(std::move(restriction_)) {}
   bool pre_processing() override;
   bool validation() override;

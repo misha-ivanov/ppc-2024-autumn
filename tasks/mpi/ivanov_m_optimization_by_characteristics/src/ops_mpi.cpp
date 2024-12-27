@@ -26,7 +26,7 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskSequential::valida
 
 bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskSequential::run() {
   internal_order_test();
-  
+
   // during algorithm we will move from left to right and from up to down
   double minX = centerX - step * (static_cast<double>(size - 1) / 2);  // minimal X of area
   double maxY = centerY + step * (static_cast<double>(size - 1) / 2);  // maximal Y of area
@@ -75,14 +75,14 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskSequential::run() 
     maxY = centerY + step * (static_cast<double>(size - 1) / 2);
   }
 
+  res = local_res;
   return true;
 }
 
 bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskSequential::post_processing() {
   internal_order_test();
-  *reinterpret_cast<double*>(taskData->outputs[0]) = res;
+  reinterpret_cast<double*>(taskData->outputs[0])[0] = res;
   return true;
-
 }
 
 bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::pre_processing() {
@@ -190,9 +190,9 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::run() {
   double localX;  // coordinate X of local point
   double localY;  // coordinate X of local point
 
-  bool is_appropriate;  // flag of point appropriation
-  bool local_is_appropriate;  // flag of point appropriation for each process
-  double local_value;   // value of function in point (localX, localY)
+  int is_appropriate = 1;        // flag of point appropriation
+  int local_is_appropriate = 1;  // flag of point appropriation for each process
+  double local_value;            // value of function in point (localX, localY)
 
   std::vector<int> flags(world_size, 0);
 
@@ -203,13 +203,13 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::run() {
     for (int counterY = 0; counterY < size; counterY++) {
       localX = minX;
       for (int counterX = 0; counterX < size; counterX++) {
-        local_is_appropriate = true;
+        local_is_appropriate = 1;
         int i = start_index;
         while (i < start_index + local_restrictions_size && local_is_appropriate) {
-          local_is_appropriate = restriction[i](localX, localY);
+          local_is_appropriate = static_cast<int>(restriction[i](localX, localY));
           i++;
         }
-        boost::mpi::reduce(world, local_is_appropriate, is_appropriate, std::logical_and<>(), 0);
+        boost::mpi::reduce(world, &local_is_appropriate, 1, &is_appropriate, std::logical_and<>(), 0);
         if (rank == 0 && is_appropriate) {
           local_value = f(localX, localY);
           if (local_value < local_res) {
@@ -218,6 +218,7 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::run() {
             centerY = localY;
           }
         }
+        world.barrier();
         localX += step;
       }
       localY -= step;
@@ -254,11 +255,10 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::run() {
   return true;
 }
 
-
 bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::post_processing() {
   internal_order_test();
   if (world.rank() == 0) {
-    *reinterpret_cast<double*>(taskData->outputs[0]) = res;
+    reinterpret_cast<double*>(taskData->outputs[0])[0] = res;
   }
   return true;
 }

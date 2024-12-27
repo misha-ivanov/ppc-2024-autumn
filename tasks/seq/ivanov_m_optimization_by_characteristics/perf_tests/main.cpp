@@ -1,9 +1,6 @@
 // Copyright 2024 Ivanov Mike
 #include <gtest/gtest.h>
 
-#include <random>
-#include <vector>
-
 #include "core/perf/include/perf.hpp"
 #include "seq/ivanov_m_optimization_by_characteristics/include/ops_seq.hpp"
 
