@@ -8,6 +8,7 @@
 #include <boost/mpi/communicator.hpp>
 #include <boost/mpi/environment.hpp>
 #include <boost/serialization/vector.hpp>
+#include <cfloat>
 #include <functional>
 #include <numbers>
 #include <vector>

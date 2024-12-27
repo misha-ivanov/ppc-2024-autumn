@@ -10,7 +10,7 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, validation) {
   int size = 11;                // size in points
   double step = 1;              // length of step
   double approximation = 1e-2;  // approximation of the result
-  
+
   // vector of start information
   std::vector<double> info{centerX, centerY, static_cast<double>(size), step, approximation};
 
@@ -18,7 +18,10 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, validation) {
   std::function<double(double, double)> f = [](double x, double y) { return x + y; };
 
   // restriction functions
-  std::function<bool(double, double)> r1 = [](double x, double y) { return y >= 1; };
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y > 1;
+  };
   std::vector<std::function<bool(double, double)>> restriction{r1};
 
   // result
@@ -54,7 +57,10 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, pre_processing) {
   std::function<double(double, double)> f = [](double x, double y) { return x + y; };
 
   // restriction functions
-  std::function<bool(double, double)> r1 = [](double x, double y) { return y >= 1; };
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y > 1;
+  };
   std::vector<std::function<bool(double, double)>> restriction{r1};
 
   // result
@@ -91,7 +97,10 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, run_simple_test_1_r
   std::function<double(double, double)> f = [](double x, double y) { return x * x + y * y; };
 
   // restriction functions
-  std::function<bool(double, double)> r1 = [](double x, double y) { return y >= 1; };
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y > 1;
+  };
   std::vector<std::function<bool(double, double)>> restriction{r1};
 
   // result
@@ -132,7 +141,10 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, run_simple_test_1_r
   std::function<double(double, double)> f = [](double x, double y) { return x * x + y * y; };
 
   // restriction functions
-  std::function<bool(double, double)> r1 = [](double x, double y) { return y > 1; };
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y > 1;
+  };
   std::vector<std::function<bool(double, double)>> restriction{r1};
 
   // result
@@ -173,7 +185,10 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, run_simple_test_1_r
   std::function<double(double, double)> f = [](double x, double y) { return x * x + y * y; };
 
   // restriction functions
-  std::function<bool(double, double)> r1 = [](double x, double y) { return y > 1; };
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y > 1;
+  };
   std::function<bool(double, double)> r2 = [](double x, double y) { return y < x; };
   std::function<bool(double, double)> r3 = [](double x, double y) { return 4 > x * x + y * y; };
   std::vector<std::function<bool(double, double)>> restriction{r1, r2, r3};
@@ -216,7 +231,10 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, run_hard_test_1_res
   std::function<double(double, double)> f = [](double x, double y) { return y * log(x); };
 
   // restriction functions
-  std::function<bool(double, double)> r1 = [](double x, double y) { return x > 1; };
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)y;
+    return x > 1;
+  };
   std::function<bool(double, double)> r2 = [](double x, double y) { return std::numbers::e <= sqrt(x * x + y * y); };
   std::function<bool(double, double)> r3 = [](double x, double y) { return 1 > (x - 2) * (x - 2) + (y - 1) * (y - 1); };
 
@@ -263,10 +281,16 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, run_hard_test_2_res
   std::function<bool(double, double)> r1 = [](double x, double y) { return 25 < x * x + y * y; };
   std::function<bool(double, double)> r2 = [](double x, double y) { return x < sqrt(y + 5); };
   std::function<bool(double, double)> r3 = [](double x, double y) { return y > (-1) * log(x) - 5; };
-  std::function<bool(double, double)> r4 = [](double x, double y) { return 1 < abs(y); };
+  std::function<bool(double, double)> r4 = [](double x, double y) {
+    (void)x;
+    return 1 < abs(y);
+  };
   std::function<bool(double, double)> r5 = [](double x, double y) { return y > 5 * sin(x); };
   std::function<bool(double, double)> r6 = [](double x, double y) { return y > x + 1; };
-  std::function<bool(double, double)> r7 = [](double x, double y) { return y > 4; };
+  std::function<bool(double, double)> r7 = [](double x, double y) {
+    (void)x;
+    return y > 4;
+  };
   std::function<bool(double, double)> r8 = [](double x, double y) { return x < y * y; };
 
   std::vector<std::function<bool(double, double)>> restriction{r1, r2, r3, r4, r5, r6, r7, r8};

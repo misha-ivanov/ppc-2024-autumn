@@ -25,10 +25,16 @@ TEST(ivanov_m_optimization_by_characteristics_mpi_perf_test, test_pipeline_run) 
   std::function<bool(double, double)> r1 = [](double x, double y) { return 25 < x * x + y * y; };
   std::function<bool(double, double)> r2 = [](double x, double y) { return x < sqrt(y + 5); };
   std::function<bool(double, double)> r3 = [](double x, double y) { return y > (-1) * log(x) - 5; };
-  std::function<bool(double, double)> r4 = [](double x, double y) { return 1 < abs(y); };
+  std::function<bool(double, double)> r4 = [](double x, double y) {
+    (void)x;
+    return 1 < abs(y);
+  };
   std::function<bool(double, double)> r5 = [](double x, double y) { return y > 5 * sin(x); };
   std::function<bool(double, double)> r6 = [](double x, double y) { return y > x + 1; };
-  std::function<bool(double, double)> r7 = [](double x, double y) { return y > 4; };
+  std::function<bool(double, double)> r7 = [](double x, double y) {
+    (void)x;
+    return y > 4;
+  };
   std::function<bool(double, double)> r8 = [](double x, double y) { return x < y * y; };
 
   std::vector<std::function<bool(double, double)>> restriction{r1, r2, r3, r4, r5, r6, r7, r8};
@@ -91,10 +97,16 @@ TEST(ivanov_m_optimization_by_characteristics_mpi_perf_test, test_task_run) {
   std::function<bool(double, double)> r1 = [](double x, double y) { return 25 < x * x + y * y; };
   std::function<bool(double, double)> r2 = [](double x, double y) { return x < sqrt(y + 5); };
   std::function<bool(double, double)> r3 = [](double x, double y) { return y > (-1) * log(x) - 5; };
-  std::function<bool(double, double)> r4 = [](double x, double y) { return 1 < abs(y); };
+  std::function<bool(double, double)> r4 = [](double x, double y) {
+    (void)x;
+    return 1 < abs(y);
+  };
   std::function<bool(double, double)> r5 = [](double x, double y) { return y > 5 * sin(x); };
   std::function<bool(double, double)> r6 = [](double x, double y) { return y > x + 1; };
-  std::function<bool(double, double)> r7 = [](double x, double y) { return y > 4; };
+  std::function<bool(double, double)> r7 = [](double x, double y) {
+    (void)x;
+    return y > 4;
+  };
   std::function<bool(double, double)> r8 = [](double x, double y) { return x < y * y; };
 
   std::vector<std::function<bool(double, double)>> restriction{r1, r2, r3, r4, r5, r6, r7, r8};
