@@ -1,14 +1,13 @@
 // Copyright 2024 Ivanov Mike
 #pragma once
 
-#include <math.h>
-
 #include <algorithm>
 #include <boost/mpi/collectives.hpp>
 #include <boost/mpi/communicator.hpp>
 #include <boost/mpi/environment.hpp>
 #include <boost/serialization/vector.hpp>
 #include <cfloat>
+#include <cmath>
 #include <functional>
 #include <numbers>
 #include <vector>

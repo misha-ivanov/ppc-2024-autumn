@@ -1,8 +1,6 @@
 // Copyright 2024 Ivanov Mike
 #pragma once
 
-#include <math.h>
-
 #include <cmath>
 #include <functional>
 #include <numbers>
