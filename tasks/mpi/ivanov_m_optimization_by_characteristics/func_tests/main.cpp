@@ -93,8 +93,8 @@ TEST(ivanov_m_optimization_by_characteristics_mpi_func_test, validation_false_1)
 TEST(ivanov_m_optimization_by_characteristics_mpi_func_test, validation_false_2) {
   boost::mpi::communicator world;
   // start information
-  double centerX = 0;           // coordinate X of the search area center
-  double centerY = 0;           // coordinate Y of the search area center
+  double centerX = 0;  // coordinate X of the search area center
+  double centerY = 0;  // coordinate Y of the search area center
 
   // vector of start information
   std::vector<double> info{centerX, centerY};

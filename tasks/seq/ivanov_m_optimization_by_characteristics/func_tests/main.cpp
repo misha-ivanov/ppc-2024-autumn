@@ -86,9 +86,9 @@ TEST(ivanov_m_optimization_by_characteristics_seq_func_test, validation_false_1)
 
 TEST(ivanov_m_optimization_by_characteristics_seq_func_test, validation_false_2) {
   // start information
-  double centerX = 0;           // coordinate X of the search area center
-  double centerY = 0;           // coordinate Y of the search area center
-  int size = 11;                // size in points
+  double centerX = 0;  // coordinate X of the search area center
+  double centerY = 0;  // coordinate Y of the search area center
+  int size = 11;       // size in points
 
   // vector of start information
   std::vector<double> info{centerX, centerY, static_cast<double>(size)};
