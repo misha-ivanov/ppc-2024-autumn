@@ -218,8 +218,8 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::run() {
             centerY = localY;
           }
         }
-        world.barrier();
         localX += step;
+        world.barrier();
       }
       localY -= step;
     }

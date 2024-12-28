@@ -75,6 +75,7 @@ bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::run() {
     maxY = centerY + step * (static_cast<double>(size - 1) / 2);
   }
 
+  res = local_res;
   return true;
 }
 

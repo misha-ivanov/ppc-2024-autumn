@@ -45,6 +45,132 @@ TEST(ivanov_m_optimization_by_characteristics_mpi_func_test, validation) {
   }
 }
 
+TEST(ivanov_m_optimization_by_characteristics_mpi_func_test, validation_false_1) {
+  boost::mpi::communicator world;
+  // start information
+  double centerX = 0;           // coordinate X of the search area center
+  double centerY = 0;           // coordinate Y of the search area center
+  int size = 11;                // size in points
+  double step = 1;              // length of step
+  double approximation = 1e-2;  // approximation of the result
+
+  // vector of start information
+  std::vector<double> info{centerX, centerY, static_cast<double>(size), step, approximation};
+  std::vector<double> info_false{centerX, centerY};
+
+  // main function
+  std::function<double(double, double)> f = [](double x, double y) { return x + y; };
+
+  // restriction functions
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y >= 1;
+  };
+  std::vector<std::function<bool(double, double)>> restriction{r1};
+
+  // result
+  double out = INT_MAX;
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
+
+  if (world.rank() == 0) {
+    taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t *>(info.data()));
+    taskDataPar->inputs_count.emplace_back(info.size());
+    taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t *>(info_false.data()));
+    taskDataPar->inputs_count.emplace_back(info_false.size());
+    taskDataPar->outputs.emplace_back(reinterpret_cast<uint8_t *>(&out));
+    taskDataPar->outputs_count.emplace_back(1);
+  }
+
+  if (world.rank() == 0) {
+    ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar, f, restriction);
+
+    EXPECT_EQ(testMpiTaskParallel.validation(), false);
+  }
+}
+
+TEST(ivanov_m_optimization_by_characteristics_mpi_func_test, validation_false_2) {
+  boost::mpi::communicator world;
+  // start information
+  double centerX = 0;           // coordinate X of the search area center
+  double centerY = 0;           // coordinate Y of the search area center
+
+  // vector of start information
+  std::vector<double> info{centerX, centerY};
+
+  // main function
+  std::function<double(double, double)> f = [](double x, double y) { return x + y; };
+
+  // restriction functions
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y >= 1;
+  };
+  std::vector<std::function<bool(double, double)>> restriction{r1};
+
+  // result
+  double out = INT_MAX;
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
+
+  if (world.rank() == 0) {
+    taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t *>(info.data()));
+    taskDataPar->inputs_count.emplace_back(info.size());
+    taskDataPar->outputs.emplace_back(reinterpret_cast<uint8_t *>(&out));
+    taskDataPar->outputs_count.emplace_back(1);
+  }
+
+  if (world.rank() == 0) {
+    ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar, f, restriction);
+
+    EXPECT_EQ(testMpiTaskParallel.validation(), false);
+  }
+}
+
+TEST(ivanov_m_optimization_by_characteristics_mpi_func_test, validation_false_3) {
+  boost::mpi::communicator world;
+  // start information
+  double centerX = 0;           // coordinate X of the search area center
+  double centerY = 0;           // coordinate Y of the search area center
+  int size = 11;                // size in points
+  double step = 1;              // length of step
+  double approximation = 1e-2;  // approximation of the result
+
+  // vector of start information
+  std::vector<double> info{centerX, centerY, static_cast<double>(size), step, approximation};
+
+  // main function
+  std::function<double(double, double)> f = [](double x, double y) { return x + y; };
+
+  // restriction functions
+  std::function<bool(double, double)> r1 = [](double x, double y) {
+    (void)x;
+    return y >= 1;
+  };
+  std::vector<std::function<bool(double, double)>> restriction{r1};
+
+  // result
+  double out = INT_MAX;
+
+  // Create TaskData
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
+
+  if (world.rank() == 0) {
+    taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t *>(info.data()));
+    taskDataPar->inputs_count.emplace_back(info.size());
+    taskDataPar->outputs.emplace_back(reinterpret_cast<uint8_t *>(&out));
+    taskDataPar->outputs_count.emplace_back(3);
+  }
+
+  if (world.rank() == 0) {
+    ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar, f, restriction);
+
+    EXPECT_EQ(testMpiTaskParallel.validation(), false);
+  }
+}
+
 TEST(ivanov_m_optimization_by_characteristics_mpi_func_test, pre_processing) {
   boost::mpi::communicator world;
   // start information
