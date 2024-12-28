@@ -43,7 +43,7 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskSequential::run() 
   int i;                // number of current restriction
   double local_value;   // value of function in point (localX, localY)
 
-  while (abs(local_res - res) > approximation) {
+  while (std::abs(local_res - res) > approximation) {
     res = local_res;
     localY = maxY;
     for (int counterY = 0; counterY < size; counterY++) {
@@ -197,7 +197,7 @@ bool ivanov_m_optimization_by_characteristics_mpi::TestMPITaskParallel::run() {
   std::vector<int> flags(world_size, 0);
 
   // searching algorithm
-  while (abs(local_res - prev_res) > approximation) {
+  while (std::abs(local_res - prev_res) > approximation) {
     prev_res = local_res;
     localY = maxY;
     for (int counterY = 0; counterY < size; counterY++) {

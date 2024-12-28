@@ -43,7 +43,7 @@ bool ivanov_m_optimization_by_characteristics_seq::TestTaskSequential::run() {
   int i;                // number of current restriction
   double local_value;   // value of function in point (localX, localY)
 
-  while (abs(local_res - res) > approximation) {
+  while (std::abs(local_res - res) > approximation) {
     res = local_res;
     localY = maxY;
     for (int counterY = 0; counterY < size; counterY++) {
